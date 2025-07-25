@@ -3,9 +3,11 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const BASE_URL = `${API_URL}/api/libros`;
 
-export async function getLibros(userId, query = '') {
+const BASE_URL = import.meta.env.VITE_API_URL + '/api/libros';
+
+export async function getLibros(usuarioId, query = '') {
   const q = query ? `&q=${encodeURIComponent(query)}` : '';
-  const res = await fetch(`${BASE_URL}?userId=${userId}${q}`);
+  const res = await fetch(`${BASE_URL}?usuarioId=${usuarioId}${q}`);
   if (!res.ok) throw new Error('Error al obtener libros');
   return await res.json();
 }
