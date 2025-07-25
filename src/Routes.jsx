@@ -25,7 +25,7 @@ function AppRoutes() {
     const fetchLibros = async () => {
       if (usuario) {
         try {
-          const librosUsuario = await obtenerLibros(usuario.id);
+          const librosUsuario = await getLibros(usuario._id);
           setLibros(librosUsuario);
         } catch (error) {
           console.error("Error al obtener libros:", error);
