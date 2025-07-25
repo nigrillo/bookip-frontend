@@ -1,9 +1,6 @@
 // src/services/libros.js
 
-const API_URL = import.meta.env.VITE_API_URL;
-const BASE_URL = `${API_URL}/api/libros`;
-
-const BASE_URL = import.meta.env.VITE_API_URL + '/api/libros';
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api/libros`;
 
 export async function getLibros(usuarioId, query = '') {
   const q = query ? `&q=${encodeURIComponent(query)}` : '';
