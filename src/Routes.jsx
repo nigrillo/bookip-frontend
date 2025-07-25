@@ -8,7 +8,7 @@ import Inicio from "./pages/Inicio.jsx";
 import MisLibros from "./pages/MisLibros.jsx";
 import NuevoLibro from "./pages/NuevoLibro.jsx";
 
-import { obtenerLibros } from "./services/libros";
+import { getLibros } from "./services/libros";
 
 function AppRoutes() {
   const navigate = useNavigate();
