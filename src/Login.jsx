@@ -1,71 +1,63 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-const API_URL = import.meta.env.VITE_BACKEND_URL; // YA incluye /api
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login({ onLoginSuccess }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
+      if (!res.ok) throw new Error("Login fallido");
 
-      if (res.ok) {
-        localStorage.setItem('usuario', JSON.stringify(data));
-        console.log('🪪 userId logueado:', data._id);
-        onLoginSuccess(data);
-      } else {
-        setError(data.mensaje || 'Credenciales inválidas');
-      }
-    } catch (err) {
-      setError('Error de conexión con el servidor');
-      console.error('Login error:', err);
+      const data = await res.json();
+      onLoginSuccess(data);
+      navigate("/inicio");
+    } catch (error) {
+      alert("Error al iniciar sesión");
+      console.error(error);
     }
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow w-80">
-        <h2 className="text-xl mb-4 font-bold">Login</h2>
+    <div className="min-h-screen bg-[#00a88c] text-white flex items-center justify-center p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-[#0a8c73] p-6 rounded-lg w-full max-w-sm space-y-4"
+      >
+        <h2 className="text-2xl font-bold mb-4 text-center">Iniciar sesión</h2>
+
         <input
           type="email"
-          placeholder="Email"
-          className="w-full mb-2 p-2 border rounded"
+          placeholder="Correo electrónico"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full p-2 rounded text-black"
         />
+
         <input
           type="password"
           placeholder="Contraseña"
-          className="w-full mb-4 p-2 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full p-2 rounded text-black"
         />
-        {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-        <button
-          type="submit"
-          className="w-full bg-bookip-dark text-white py-2 rounded hover:bg-bookip-light"
-        >
-          Entrar
-        </button>
 
         <button
-          type="button"
-          onClick={() => navigate('/registro')}
-          className="text-sm underline mt-4 text-blue-600 hover:text-blue-800 transition"
+          type="submit"
+          className="w-full bg-yellow-400 text-[#0a8c73] font-semibold py-2 rounded hover:bg-yellow-300 transition"
         >
-          No tenés cuenta? Registrate
+          Ingresar
         </button>
       </form>
     </div>
