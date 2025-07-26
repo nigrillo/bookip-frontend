@@ -80,7 +80,8 @@ function NuevoLibro({ usuario: usuarioProp, libroEditando = null, onVolver }) {
         await createLibro(datos);
       }
 
-      navigate('/libros', { state: { actualizado: true } });
+      // 👉 Esto forza recarga real de la vista de libros
+      window.location.href = '/libros';
     } catch (error) {
       console.error('Error al guardar:', error);
       alert('No se pudo guardar el libro.');
