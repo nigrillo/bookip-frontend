@@ -1,14 +1,11 @@
 // src/components/Header.jsx
 import React from 'react';
 import logo from '../assets/logo-bookip.png';
-import { useNavigate } from 'react-router-dom';
 
 function Header() {
-  const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem('bookip-usuario');
-    navigate('/');
+    window.location.href = '/';
   };
 
   return (
