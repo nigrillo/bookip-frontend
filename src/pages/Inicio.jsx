@@ -16,7 +16,7 @@ function Inicio({ onLogout }) {
 
   return (
     <div className="min-h-screen bg-[#00a88c] text-white flex flex-col items-center justify-center px-4 py-10">
-      <div className="mt-[-10vh] flex flex-col items-center w-full max-w-xs text-center">
+      <div className="mt-[-16vh] flex flex-col items-center w-full max-w-xs text-center">
         <img src={logo} alt="Bookip logo" className="w-36 h-auto mb-10" />
 
         <div className="space-y-4 w-full">
