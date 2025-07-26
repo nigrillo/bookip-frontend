@@ -13,38 +13,37 @@ import {
 } from 'phosphor-react';
 import { deleteLibro } from '../services/libros';
 
-function MisLibros() {
+function MisLibros({ libros = [], usuario, onEditar }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const usuario = JSON.parse(localStorage.getItem('bookip-usuario'));
-
-  const [libros, setLibros] = useState([]);
   const [librosFiltrados, setLibrosFiltrados] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [orden, setOrden] = useState('titulo');
   const [labelOrden, setLabelOrden] = useState('▼ Ordenar por');
 
-  const cargarLibros = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/libros?usuarioId=${usuario._id}`);
-      const data = await response.json();
-      setLibros(data);
-      setLibrosFiltrados(data);
-    } catch (error) {
-      console.error("Error al obtener libros:", error);
-    }
-  };
-
-  useEffect(() => {
-    cargarLibros();
-  }, []);
-
   useEffect(() => {
     if (location.state?.actualizado) {
-      cargarLibros();
+      const fetchLibros = async () => {
+        try {
+          const usuario = JSON.parse(localStorage.getItem("bookip-usuario"));
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/libros?usuarioId=${usuario._id}`);
+          const data = await response.json();
+          setLibrosFiltrados(data);
+        } catch (error) {
+          console.error("Error al recargar libros:", error);
+        }
+      };
+
+      fetchLibros();
       window.history.replaceState({}, document.title);
     }
   }, [location]);
+
+  useEffect(() => {
+    if (libros && Array.isArray(libros)) {
+      setLibrosFiltrados([...libros]);
+    }
+  }, [libros]);
 
   const handleBuscar = () => {
     const query = busqueda.toLowerCase();
@@ -91,14 +90,15 @@ function MisLibros() {
   };
 
   const handleEditar = (libro) => {
-    navigate('/nuevo', { state: { libro } });
+    onEditar(libro);
+    navigate('/nuevo');
   };
 
   const handleEliminar = async (id) => {
     if (window.confirm('¿Seguro que querés eliminar este libro?')) {
       try {
         await deleteLibro(id);
-        await cargarLibros();
+        window.location.reload();
       } catch (error) {
         alert('Error al eliminar el libro.');
         console.error(error);
