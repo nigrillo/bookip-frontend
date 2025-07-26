@@ -14,7 +14,7 @@ function NuevoLibro({ usuario: usuarioProp, libroEditando = null, onVolver }) {
   const libroDesdeRuta = location.state?.libro || libroEditando;
   const estadoForzado = location.state?.estadoForzado;
 
-  const usuario = usuarioProp || JSON.parse(localStorage.getItem('usuario'));
+  const usuario = usuarioProp || JSON.parse(localStorage.getItem('bookip-usuario'));
 
   const [libro, setLibro] = useState({
     titulo: '',
