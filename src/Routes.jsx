@@ -1,3 +1,4 @@
+// src/Routes.jsx
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
@@ -42,13 +43,54 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={usuario ? <Navigate to="/inicio" /> : <Login onLoginSuccess={handleLoginSuccess} />} />
+      <Route
+        path="/"
+        element={
+          usuario ? (
+            <Navigate to="/inicio" />
+          ) : (
+            <Login onLoginSuccess={handleLoginSuccess} />
+          )
+        }
+      />
       <Route path="/registro" element={<Registro />} />
-      <Route element={<Layout />}>
-        <Route path="/inicio" element={<Inicio />} />
-        <Route path="/libros" element={<MisLibros libros={libros} usuario={usuario} onEditar={handleEditar} />} />
-        <Route path="/nuevo" element={<NuevoLibro />} />
+
+      <Route
+        element={<Layout />}
+      >
+        <Route
+          path="/inicio"
+          element={
+            usuario ? (
+              <Inicio />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path="/libros"
+          element={
+            usuario ? (
+              <MisLibros libros={libros} usuario={usuario} onEditar={handleEditar} />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path="/nuevo"
+          element={
+            usuario ? (
+              <NuevoLibro usuario={usuario} />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
       </Route>
+
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
