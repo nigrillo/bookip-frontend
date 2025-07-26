@@ -1,7 +1,6 @@
 // src/Registro.jsx
 import React, { useState } from 'react';
-
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+import { registrarUsuario } from './services/usuarios';
 
 export default function Registro() {
   const [nombre, setNombre] = useState('');
@@ -21,18 +20,7 @@ export default function Registro() {
     }
 
     try {
-      const res = await fetch(`${API_URL}/registro`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, email, password })
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.mensaje || 'Error al registrar');
-      }
-
+      await registrarUsuario({ nombre, email, password });
       setExito(true);
       setMensaje('✅ Usuario creado. Ya podés iniciar sesión.');
     } catch (err) {
