@@ -23,6 +23,18 @@ function MisLibros({ libros = [], usuario, onEditar }) {
 
   useEffect(() => {
     if (location.state?.actualizado) {
+      const fetchLibros = async () => {
+        try {
+          const usuario = JSON.parse(localStorage.getItem("bookip-usuario"));
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/libros?usuarioId=${usuario._id}`);
+          const data = await response.json();
+          setLibrosFiltrados(data);
+        } catch (error) {
+          console.error("Error al recargar libros:", error);
+        }
+      };
+
+      fetchLibros();
       window.history.replaceState({}, document.title);
     }
   }, [location]);
