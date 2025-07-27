@@ -1,8 +1,12 @@
 // src/services/usuarios.js
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+
+const BASE_URL =
+  import.meta.env.MODE === 'production'
+    ? 'https://bookip-backend.onrender.com'
+    : import.meta.env.VITE_BACKEND_URL;
 
 export const registrarUsuario = async ({ nombre, email, password }) => {
-  const res = await fetch(`${API_URL}/api/usuarios/registro`, {
+  const res = await fetch(`${BASE_URL}/api/usuarios/registro`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ nombre, email, password }),
