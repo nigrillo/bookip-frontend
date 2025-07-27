@@ -80,7 +80,6 @@ function NuevoLibro({ usuario: usuarioProp, libroEditando = null, onVolver }) {
         await createLibro(datos);
       }
 
-      // 👉 Esto forza recarga real de la vista de libros
       window.location.href = '/libros';
     } catch (error) {
       console.error('Error al guardar:', error);
@@ -90,7 +89,7 @@ function NuevoLibro({ usuario: usuarioProp, libroEditando = null, onVolver }) {
 
   return (
     <div className="min-h-screen bg-[#00a88c] text-white px-4 py-6">
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-6 pb-32 overflow-y-auto">
         <h1 className="text-3xl font-bold">
           {libroDesdeRuta ? 'Editar libro' : 'Agregar libro'}
         </h1>
