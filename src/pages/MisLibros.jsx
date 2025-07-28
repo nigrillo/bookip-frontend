@@ -13,7 +13,7 @@ import {
 } from 'phosphor-react';
 import { deleteLibro } from '../services/libros';
 
-function MisLibros({ libros = [], usuario, onEditar }) {
+function MisLibros({ libros = [], usuario }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [librosFiltrados, setLibrosFiltrados] = useState([]);
@@ -90,8 +90,7 @@ function MisLibros({ libros = [], usuario, onEditar }) {
   };
 
   const handleEditar = (libro) => {
-    onEditar(libro);
-    navigate('/nuevo');
+    navigate('/nuevo', { state: { libro } });
   };
 
   const handleEliminar = async (id) => {
